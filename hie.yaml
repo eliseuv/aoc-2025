@@ -1,0 +1,7 @@
+cradle:
+  cabal:
+    - path: "src"
+      component: "lib:aoc2025"
+
+    - path: "app/Main.hs"
+      component: "aoc2025:exe:aoc2025"

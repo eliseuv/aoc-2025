@@ -1,0 +1,40 @@
+cabal-version:      3.0
+name:               aoc2025
+version:            0.1.0.0
+synopsis:           Advent of Code 2025 Solutions
+license:            MIT
+author:             evf
+maintainer:         eliseuv@pm.me
+build-type:         Simple
+
+common shared-properties
+    default-language: Haskell2010
+    ghc-options:
+        -Wall 
+        -Wno-unused-do-bind
+    build-depends:
+        base >= 4.7 && < 5,
+        text,
+        containers,
+        unordered-containers,
+        vector,
+        megaparsec,
+        parser-combinators,
+        mtl,
+        split,
+        directory,
+        filepath
+
+library
+    import:           shared-properties
+    hs-source-dirs:   src
+    exposed-modules:
+        Days.Day01
+        -- Add new days here: Days.Day02, etc.
+
+executable aoc2025
+    import:           shared-properties
+    hs-source-dirs:   app
+    main-is:          Main.hs
+    build-depends:
+        aoc2025
