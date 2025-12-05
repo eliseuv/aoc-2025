@@ -30,7 +30,7 @@ library
     hs-source-dirs:   src
     exposed-modules:
         Days.Day01
-        -- Add new days here: Days.Day02, etc.
+        Days.Day02
 
 executable aoc2025
     import:           shared-properties
