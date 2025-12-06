@@ -2,6 +2,7 @@ module Main where
 
 import qualified Days.Day01 as Day01
 import qualified Days.Day02 as Day02
+import qualified Days.Day03 as Day03
 import System.Environment (getArgs)
 import Text.Printf (printf)
 
@@ -9,6 +10,7 @@ import Text.Printf (printf)
 dispatch :: Int -> (String -> IO ())
 dispatch 1 = Day01.run
 dispatch 2 = Day02.run
+dispatch 3 = Day03.run
 dispatch n = \_ -> putStrLn $ "Day " ++ show n ++ " not implemented yet."
 
 main :: IO ()
