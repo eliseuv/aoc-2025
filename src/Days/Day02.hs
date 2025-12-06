@@ -48,14 +48,40 @@ isIdInvalid productId
     productIdDigits = show productId
     numDigits = length productIdDigits
 
+-- Generates a list of all non-trivial divisors of a given integer
+divisorsOf :: Int -> [Int]
+divisorsOf n = filter (\x -> n `mod` x == 0) [2 .. i_max] >>= (\x -> [x, div n x])
+  where
+    i_max :: Int
+    i_max = floor (sqrt (fromIntegral n :: Float))
+
+-- Split a list into chunks of a given length
+chunksOf :: Int -> [a] -> [[a]]
+chunksOf = helper []
+  where
+    helper :: [[a]] -> Int -> [a] -> [[a]]
+    helper acc _ [] = acc
+    helper acc n ls = helper (take n ls : acc) n (drop n ls)
+
+-- Generate all possible chunks integers splitting for a given list
+getChunks :: [a] -> [[[a]]]
+getChunks str = map (`chunksOf` str) (1 : (divisorsOf . length) str)
+
+-- Check if a given product ID is invalid
+-- A product ID is invalid if it composed only of some sequence of digits repeated at least two times
+isIdInvalid' :: Int -> Bool
+isIdInvalid' productId = (productId >= 10) && (any (\chunks -> all (== head chunks) (tail chunks)) . getChunks . show) productId
+
+-- $> isIdInvalid' 9
+
 -- Part A
 -- Sum of all invalid ranges
 partA :: Input -> Int
 partA input = sum (filter isIdInvalid (input >>= getValues))
 
 -- Part B
-partB :: Input -> Void
-partB input = undefined
+partB :: Input -> Int
+partB input = sum (filter isIdInvalid' (input >>= getValues))
 
 -- Run all
 run :: String -> IO ()
