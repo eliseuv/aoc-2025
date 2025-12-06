@@ -43,7 +43,7 @@ parseInput str =
 isIdInvalid :: Int -> Bool
 isIdInvalid productId
     | numDigits `mod` 2 == 1 = False
-    | otherwise = and (uncurry (zipWith (==)) (splitAt (numDigits `div` 2) productIdDigits))
+    | otherwise = and $ uncurry (zipWith (==)) $ splitAt (numDigits `div` 2) productIdDigits
   where
     productIdDigits = show productId
     numDigits = length productIdDigits
@@ -65,23 +65,21 @@ chunksOf = helper []
 
 -- Generate all possible chunks integers splitting for a given list
 getChunks :: [a] -> [[[a]]]
-getChunks str = map (`chunksOf` str) (1 : (divisorsOf . length) str)
+getChunks str = map (`chunksOf` str) (1 : divisorsOf (length str))
 
 -- Check if a given product ID is invalid
 -- A product ID is invalid if it composed only of some sequence of digits repeated at least two times
 isIdInvalid' :: Int -> Bool
 isIdInvalid' productId = (productId >= 10) && (any (\chunks -> all (== head chunks) (tail chunks)) . getChunks . show) productId
 
--- $> isIdInvalid' 9
-
 -- Part A
 -- Sum of all invalid ranges
 partA :: Input -> Int
-partA input = sum (filter isIdInvalid (input >>= getValues))
+partA input = sum $ filter isIdInvalid $ input >>= getValues
 
 -- Part B
 partB :: Input -> Int
-partB input = sum (filter isIdInvalid' (input >>= getValues))
+partB input = sum $ filter isIdInvalid' $ input >>= getValues
 
 -- Run all
 run :: String -> IO ()
